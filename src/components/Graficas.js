@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2";
+import {
+  Pie,
+  Doughnut,
+  Bar,
+  Line,
+  PolarArea,
+  Radar,
+  HorizontalBar,
+} from "react-chartjs-2";
 import "chart.piecelabel.js";
 
 export const Graficas = () => {
   /*  */
 
-  const [respuesta, setRespuesta] = useState([]);
-  const [continente, setContinente] = useState([]);
-  const [porcentaje, setPorcentaje] = useState([]);
-  const [colores, setColores] = useState([]);
-  const [data, setData] = useState([]);
-  const [opciones, setOpciones] = useState();
+  // const [respuesta, setRespuesta] = useState([]);
+  // const [continente, setContinente] = useState([]);
+  // const [porcentaje, setPorcentaje] = useState([]);
+  // const [colores, setColores] = useState([]);
+  const [data, setData] = useState({});
+  const [opciones, setOpciones] = useState({});
 
   const getData = async () => {
     const key = process.env.SECRET_KEY;
@@ -27,26 +35,26 @@ export const Graficas = () => {
 
     if (res.ok) {
       const body = await res.json();
-      /* console.log(body); */
-      setRespuesta(body);
+      console.log(body);
+      // setRespuesta(body);
 
       let continente = body.map((item) => item.continente);
       let porcentaje = body.map((item) => item.porcentaje);
 
-      setContinente(continente);
-      setPorcentaje(porcentaje);
+      // setContinente(continente);
+      // setPorcentaje(porcentaje);
 
       const coloresPro = [];
       const generarColores = (data) => {
         for (let i = 0; i < data.length; i++) {
           coloresPro.push(colorHex());
         }
-        setColores(coloresPro);
+        // setColores(coloresPro);
       };
 
-      console.log(coloresPro);
-
       generarColores(body);
+
+      console.log(coloresPro);
 
       configurarGrafica(continente, porcentaje, coloresPro);
     } else {
@@ -91,6 +99,7 @@ export const Graficas = () => {
       labels: continente,
       datasets: [
         {
+          label: "costo proyecto",
           data: porcentaje,
           backgroundColor: colores,
         },
@@ -101,6 +110,7 @@ export const Graficas = () => {
       responsive: true,
       pieceLabel: {
         render: function (args) {
+          // console.log(args);
           return args.label + ":" + args.value + "%";
         },
         fontSize: 15,
@@ -108,7 +118,7 @@ export const Graficas = () => {
         fontFamily: "Arial",
       },
     };
-    console.log(opciones);
+    // console.log(opciones);
     setData(data);
     setOpciones(opciones);
   };
@@ -120,15 +130,45 @@ export const Graficas = () => {
   /*  */
   return (
     <div className="container p-4">
-      <div className="row">
+      <div className="row m-2">
         <div className="col-md-6">
-          <h4> Grafica del procentaje de los avances </h4>
+          <h5> Grafica del procentaje de los avances </h5>
           <hr />
           <Pie data={data} options={opciones}></Pie>
+          {/* <Doughnut data={data} options={opciones}></Doughnut> */}
         </div>
         <div className="col-md-6">
-          <h4> Grafica extra pro </h4>
+          <h5> Grafica extra pro </h5>
           <hr />
+          <Doughnut data={data} options={opciones}></Doughnut>
+        </div>
+      </div>
+
+      <div className="row m-2">
+        <div className="col-md-6">
+          <h5> Grafica del proyecto más costoso </h5>
+          <hr />
+          <Bar data={data} options={opciones}></Bar>
+          {/* <Doughnut data={data} options={opciones}></Doughnut> */}
+        </div>
+        <div className="col-md-6">
+          <h5> Grafica extra pro </h5>
+          <hr />
+          <HorizontalBar data={data} options={opciones}></HorizontalBar>
+        </div>
+      </div>
+
+      <div className="row m-2">
+        <div className="col-md-6">
+          <h5> Grafica del proyecto más costoso </h5>
+          <hr />
+          <Line data={data} options={opciones}></Line>
+          {/* <Doughnut data={data} options={opciones}></Doughnut> */}
+        </div>
+        <div className="col-md-6">
+          <h5> Grafica extra pro </h5>
+          <hr />
+          <Radar data={data} options={opciones}></Radar>
         </div>
       </div>
     </div>
