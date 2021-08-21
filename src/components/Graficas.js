@@ -11,12 +11,6 @@ import {
 import "chart.piecelabel.js";
 
 export const Graficas = () => {
-  /*  */
-
-  // const [respuesta, setRespuesta] = useState([]);
-  // const [continente, setContinente] = useState([]);
-  // const [porcentaje, setPorcentaje] = useState([]);
-  // const [colores, setColores] = useState([]);
   const [data, setData] = useState({});
   const [opciones, setOpciones] = useState({});
 
@@ -41,15 +35,11 @@ export const Graficas = () => {
       let continente = body.map((item) => item.continente);
       let porcentaje = body.map((item) => item.porcentaje);
 
-      // setContinente(continente);
-      // setPorcentaje(porcentaje);
-
       const coloresPro = [];
       const generarColores = (data) => {
         for (let i = 0; i < data.length; i++) {
           coloresPro.push(colorHex());
         }
-        // setColores(coloresPro);
       };
 
       generarColores(body);
