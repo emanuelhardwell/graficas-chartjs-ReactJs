@@ -99,7 +99,7 @@ export const Graficas = () => {
       labels: continente,
       datasets: [
         {
-          label: "costo proyecto",
+          label: "costo proyectos",
           data: porcentaje,
           backgroundColor: colores,
         },
